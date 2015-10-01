@@ -16,17 +16,6 @@ defmodule Exjprop.Properties.S3 do
     end
     %Exjprop.Properties.S3{prop_fun: fn_to_prop_fun(load_fun)}
   end
-  
-  @doc """
-  Create a new remote properties, specifying an access key and secret key
-  """
-  def new(bucket, key, access, secret) do
-    load_fun = fn ->
-      get_s3_object_content_string(bucket, key, aws_config(access, secret))
-      |> ExjString.to_stream
-    end
-    %Exjprop.Properties.S3{prop_fun: fn_to_prop_fun(load_fun)}
-  end
 
   @doc """
   Load the properties form the remote resource
@@ -47,21 +36,12 @@ defmodule Exjprop.Properties.S3 do
   end
 
   defp get_s3_object_content_string(bucket, key) do
-    :erlcloud_s3.get_object(String.to_char_list(bucket), String.to_char_list(key))
+    ExAws.S3.get_object(bucket, key)
     |> extract_s3_obj_content
   end
 
-  defp get_s3_object_content_string(bucket, key, aws_conf) do
-    :erlcloud_s3.get_object(String.to_char_list(bucket), String.to_char_list(key), aws_conf)
-    |> extract_s3_obj_content
-  end
-
-  defp extract_s3_obj_content(s3_obj) do
-    s3_obj[:content]
-  end
-
-  defp aws_config(access, secret) do
-    :erlcloud_s3.new(String.to_char_list(access), String.to_char_list(secret))
+  defp extract_s3_obj_content({:ok, %{body: body}}) do
+    body
   end
 
   defimpl Exjprop.Properties, for: Exjprop.Properties.S3 do
