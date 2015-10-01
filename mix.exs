@@ -46,7 +46,7 @@ defmodule Exjprop.Mixfile do
   end
 
   def package do
-    [ contributors: ["Bob Stockdale"],
+    [ maintainers: ["Bob Stockdale"],
       licenses: ["MIT License"],
       links: %{
         "GitHub" => "https://github.com/stocks29/exjprop.git",
