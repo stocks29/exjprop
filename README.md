@@ -10,5 +10,5 @@ API documentation is available at http://hexdocs.pm/exjprop
 ### Add as dependency
 
 ```elixir
-{:exjprop, "~> 0.0.1"}
+{:exjprop, "~> 0.0.2"}
 ```
