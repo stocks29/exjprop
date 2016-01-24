@@ -1,6 +1,8 @@
 Exjprop
 =======
 
+[![Build Status](https://travis-ci.org/stocks29/exjprop.svg?branch=master)](https://travis-ci.org/stocks29/exjprop)
+
 Exjprop is a library for reading Java properties files from various sources. 
 
 Implementations are provided for File, Stream, Function (which returns a stream), and Amazon S3.
