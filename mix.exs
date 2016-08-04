@@ -3,7 +3,7 @@ defmodule Exjprop.Mixfile do
 
   def project do
     [app: :exjprop,
-     version: "0.0.5",
+     version: "0.1.0",
      elixir: "~> 1.2",
      name: "exjprop",
      source_url: "https://github.com/stocks29/exjprop",
@@ -31,7 +31,7 @@ defmodule Exjprop.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
-      {:ex_aws, "~> 0.4.15"},
+      {:ex_aws, "~> 1.0.0-beta1"},
       {:sweet_xml, "~> 0.6.1"},
       {:httpoison, "~> 0.8.1"},
       {:earmark, "~> 0.2.1", only: :dev},
