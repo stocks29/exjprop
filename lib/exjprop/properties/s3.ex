@@ -37,6 +37,7 @@ defmodule Exjprop.Properties.S3 do
 
   defp get_s3_object_content_string(bucket, key) do
     ExAws.S3.get_object(bucket, key)
+    |> ExAws.request
     |> extract_s3_obj_content
   end
 
