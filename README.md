@@ -12,5 +12,40 @@ API documentation is available at http://hexdocs.pm/exjprop
 ### Add as dependency
 
 ```elixir
-{:exjprop, "~> 0.1.0"}
+{:exjprop, "~> 0.2.0"}
 ```
+
+### Load application properties at runtime
+
+First, define a property loader module
+
+```elixir
+defmodule MyApp.PropLoader do
+  use Exjprop.Loader
+  import Exjprop.Validators, only: [required: 1]
+
+  property "endpoint.secret", {:my_app, MyApp.Endpoint, :secret_key_base}
+
+  property "foo.bar", {:my_app, MyApp.Foo, :bar}, secret: false, pipeline: [&required/1]
+  property "foo.quux", {:my_app, MyApp.Foo, :quux}, secret: false, pipeline: [&required/1, &integer/1]
+end
+```
+
+Next, when your application starts, have it read in your properties and update
+your application environment
+
+```elixir
+defmodule MyApp do
+  use Application
+  import Supervisor.Spec
+  alias MyApp.PropLoader
+
+  def start(_type, _args) do
+    PropLoader.load_and_update_env({:system, "MYAPP_PROPS_FILE"})
+    ...
+```
+
+This configuration will cause the prop loader to read the `MYAPP_PROPS_FILE`
+environment var, and attempt to use that as a uri for loading a properties file.
+The uri should either `file:///path/to/file.properties` or
+`s3:///myapp_bucket/path/to/s3/file.properties`.
