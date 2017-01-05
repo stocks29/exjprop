@@ -3,14 +3,14 @@ defmodule Exjprop.Mixfile do
 
   def project do
     [app: :exjprop,
-     version: "0.2.0",
+     version: "0.2.1",
      elixir: "~> 1.3",
      name: "exjprop",
      source_url: "https://github.com/stocks29/exjprop",
      homepage_url: "https://github.com/stocks29/exjprop",
-     description: description,
-     package: package,
-     deps: deps]
+     description: description(),
+     package: package(),
+     deps: deps()]
   end
 
   # Configuration for the OTP application
@@ -31,11 +31,13 @@ defmodule Exjprop.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
-      {:ex_aws, "~> 1.0.0-rc.4"},
+      {:ex_aws, "~> 1.0"},
       {:sweet_xml, "~> 0.6.3"},
       {:httpoison, "~> 0.10.0"},
       {:earmark, "~> 1.0", only: :dev},
       {:ex_doc, "~> 0.14.5", only: :dev},
+      # Temporary override for conflicting version constraints in ex_aws and httpoison
+      {:hackney, "~> 1.6", override: true}
     ]
   end
 
