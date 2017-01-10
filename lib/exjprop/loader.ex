@@ -94,7 +94,7 @@ defmodule Exjprop.Loader do
   end
 
   defp log_property_load(app, module, key, source, value, false) do
-    Logger.info ~s([Property] #{app} #{inspect module}.#{key} = ${"#{source}"} = "#{value}")
+    Logger.info ~s([Property] #{app} #{inspect module}.#{key} = ${"#{source}"} = "#{inspect value}")
   end
   defp log_property_load(app, module, key, source, _value, _is_secret) do
     Logger.info ~s([Property] #{app} #{inspect module}.#{key} = ${"#{source}"} = "#{@masked_value}")
