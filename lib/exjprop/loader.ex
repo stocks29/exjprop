@@ -4,13 +4,13 @@ defmodule Exjprop.Loader do
   @masked_value "*******"
 
   defmodule ValidationError do
-    defexception message: "validation error", value: nil, is_secret: true
+    defexception message: "validation error", value: nil, is_secret: true, source: ""
 
-    def new(message, value, false = is_secret) do
-      %ValidationError{message: "#{message} (#{inspect value})", value: value, is_secret: is_secret}
+    def new(message, value, false = is_secret, source) do
+      %ValidationError{message: "#{source} #{message} (#{inspect value})", value: value, is_secret: is_secret, source: source}
     end
-    def new(message, _value, is_secret) do
-      %ValidationError{message: message, value: "*******", is_secret: is_secret}
+    def new(message, _value, is_secret, source) do
+      %ValidationError{message: "#{source} #{message}", value: "*******", is_secret: is_secret, source: source}
     end
   end
 
@@ -79,7 +79,7 @@ defmodule Exjprop.Loader do
     Enum.each configured_props, fn {source, {app, module, key}, opts} ->
       is_secret = secret(opts)
       value = get_property!(props, source)
-      |> process_pipeline!(opts[:pipeline], is_secret)
+      |> process_pipeline!(opts[:pipeline], is_secret, source)
       handle_property_value(app, module, key, source, value, is_secret, opts)
     end
   end
@@ -107,10 +107,10 @@ defmodule Exjprop.Loader do
     Exjprop.Properties.get_property!(properties, prop)
   end
 
-  defp process_pipeline!(value, nil, _is_secret), do: value
-  defp process_pipeline!(value, funs, is_secret) do
+  defp process_pipeline!(value, nil, _is_secret, _source), do: value
+  defp process_pipeline!(value, funs, is_secret, source) do
     process_pipeline_steps({:ok, value}, funs)
-    |> handle_pipeline_result(is_secret)
+    |> handle_pipeline_result(is_secret, source)
   end
 
   defp process_pipeline_steps(wrapped_val, []), do: wrapped_val
@@ -120,8 +120,8 @@ defmodule Exjprop.Loader do
     end)
   end
 
-  defp handle_pipeline_result({:ok, value}, _is_secret), do: value
-  defp handle_pipeline_result({:error, {value, message}}, is_secret), do: raise ValidationError.new(message, value, is_secret)
+  defp handle_pipeline_result({:ok, value}, _is_secret, _source), do: value
+  defp handle_pipeline_result({:error, {value, message}}, is_secret, source), do: raise ValidationError.new(message, value, is_secret, source)
 
   @doc """
   Load the properties for the given uri/fun/stream
