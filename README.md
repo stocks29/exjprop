@@ -12,7 +12,7 @@ API documentation is available at http://hexdocs.pm/exjprop
 ### Add as dependency
 
 ```elixir
-{:exjprop, "~> 0.2.2"}
+{:exjprop, "~> 1.0.0"}
 ```
 
 ### Load application properties at runtime
@@ -49,3 +49,13 @@ This configuration will cause the prop loader to read the `MYAPP_PROPS_FILE`
 environment var, and attempt to use that as a uri for loading a properties file.
 The uri should either `file:///path/to/file.properties` or
 `s3:///myapp_bucket/path/to/s3/file.properties`.
+
+### Using S3 URLs
+
+To enable support for retrieving property files from S3, a few additional dependencies are required.
+
+```
+    {:ex_aws, "~> 1.0"},
+    {:sweet_xml, "~> 0.6"},
+    {:hackney, "~> 1.8"}
+```

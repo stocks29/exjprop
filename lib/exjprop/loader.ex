@@ -145,10 +145,18 @@ defmodule Exjprop.Loader do
   defp new_properties("file://" <> file) do
     Exjprop.Properties.File.new(file)
   end
-  defp new_properties("s3:///" <> bucket_and_file) do
-    [bucket, file] = String.split(bucket_and_file, "/", parts: 2)
-    Exjprop.Properties.S3.new(bucket, file)
+
+  if Code.ensure_loaded?(Exjprop.Properties.S3) do
+    defp new_properties("s3:///" <> bucket_and_file) do
+      [bucket, file] = String.split(bucket_and_file, "/", parts: 2)
+      Exjprop.Properties.S3.new(bucket, file)
+    end
+  else
+    defp new_properties("s3:///" <> _bucket_and_file) do
+      raise "exjprop was not compiled with the necessary dependencies for S3 support"
+    end
   end
+
   defp new_properties(fun) when is_function(fun) do
     Exjprop.Properties.Function.new(fun)
   end
