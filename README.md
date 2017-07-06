@@ -57,5 +57,6 @@ To enable support for retrieving property files from S3, a few additional depend
 ```
     {:ex_aws, "~> 1.0"},
     {:sweet_xml, "~> 0.6"},
-    {:hackney, "~> 1.8"}
 ```
+
+ExAws also needs an HTTP client - it defaults to Hackney, but can be modified (see https://hexdocs.pm/ex_aws/ExAws.Request.HttpClient.html)

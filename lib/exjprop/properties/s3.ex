@@ -1,4 +1,4 @@
-if Code.ensure_loaded?(ExAws) and Code.ensure_loaded?(SweetXml) and Code.ensure_loaded?(:httpoison) do
+if Code.ensure_loaded?(ExAws) and Code.ensure_loaded?(SweetXml) do
   defmodule Exjprop.Properties.S3 do
     defstruct prop_fun: nil
 

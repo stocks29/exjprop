@@ -4,7 +4,7 @@ defmodule Exjprop.Mixfile do
   def project do
     [app: :exjprop,
      version: "1.0.0",
-     elixir: "~> 1.3",
+     elixir: "~> 1.4",
      name: "exjprop",
      source_url: "https://github.com/stocks29/exjprop",
      homepage_url: "https://github.com/stocks29/exjprop",
@@ -17,7 +17,7 @@ defmodule Exjprop.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger, :ex_aws, :sweet_xml, :httpoison]]
+    []
   end
 
   # Dependencies can be Hex packages:
