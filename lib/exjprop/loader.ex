@@ -146,7 +146,7 @@ defmodule Exjprop.Loader do
     Exjprop.Properties.File.new(file)
   end
 
-  if Code.ensure_loaded?(Exjprop.Properties.S3) do
+  if Code.ensure_loaded?(ExAws) and Code.ensure_loaded?(SweetXml) do
     defp new_properties("s3:///" <> bucket_and_file) do
       [bucket, file] = String.split(bucket_and_file, "/", parts: 2)
       Exjprop.Properties.S3.new(bucket, file)
