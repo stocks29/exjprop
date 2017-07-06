@@ -34,8 +34,8 @@ defmodule Exjprop.Mixfile do
       {:ex_aws, "~> 1.1", optional: true},
       {:sweet_xml, "~> 0.6", optional: true},
       {:httpoison, "~> 0.11", optional: true},
-      {:earmark, "~> 1.0", only: :dev},
-      {:ex_doc, "~> 0.14.5", only: :dev},
+      {:earmark, "~> 1.2", only: :dev},
+      {:ex_doc, "~> 0.16.2", only: :dev},
     ]
   end
 
