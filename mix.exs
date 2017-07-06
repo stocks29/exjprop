@@ -3,8 +3,8 @@ defmodule Exjprop.Mixfile do
 
   def project do
     [app: :exjprop,
-     version: "0.2.2",
-     elixir: "~> 1.3",
+     version: "1.0.0",
+     elixir: "~> 1.4",
      name: "exjprop",
      source_url: "https://github.com/stocks29/exjprop",
      homepage_url: "https://github.com/stocks29/exjprop",
@@ -17,7 +17,7 @@ defmodule Exjprop.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger, :ex_aws, :sweet_xml, :httpoison]]
+    [extra_applications: [:logger]]
   end
 
   # Dependencies can be Hex packages:
@@ -31,9 +31,9 @@ defmodule Exjprop.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
-      {:ex_aws, "~> 1.1"},
-      {:sweet_xml, "~> 0.6.3"},
-      {:httpoison, "~> 0.10.0"},
+      {:ex_aws, "~> 1.1", optional: true},
+      {:sweet_xml, "~> 0.6", optional: true},
+      {:httpoison, "~> 0.11", optional: true},
       {:earmark, "~> 1.0", only: :dev},
       {:ex_doc, "~> 0.14.5", only: :dev},
     ]
