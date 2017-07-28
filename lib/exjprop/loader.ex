@@ -67,7 +67,9 @@ defmodule Exjprop.Loader do
   defmacro __before_compile__(_env) do
     quote do
       def update_env(props) do
-        Exjprop.Loader.update_env(@properties, props)
+        @properties
+        |> Enum.reverse
+        |> Exjprop.Loader.update_env(props)
       end
     end
   end
