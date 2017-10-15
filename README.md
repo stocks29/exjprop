@@ -28,6 +28,8 @@ defmodule MyApp.PropLoader do
 
   property "foo.bar", {:my_app, MyApp.Foo, :bar}, secret: false, pipeline: [&required/1]
   property "foo.quux", {:my_app, MyApp.Foo, :quux}, secret: false, pipeline: [&required/1, &integer/1]
+
+  property "other_app.thing", {:other_app, :thing}, secret: false, pipeline: [&required/1, &integer/1]
 end
 ```
 

@@ -11,6 +11,8 @@ defmodule Exjprop.LoaderTest do
     property "foo.baz", {:exjprop, Exjprop.Foo, :quux}
     property "foo.quux", {:exjprop, Exjprop.Bar, :foo_quux}, pipeline: [&integer/1]
     property "bar.quux", {:exjprop, Exjprop.Bar, :bar_quux}, pipeline: [&float/1]
+    property "two.key", {:exjprop, :two_key}
+    property "min.key", {:exjprop, :min_key}
   end
 
   setup do
@@ -21,9 +23,10 @@ defmodule Exjprop.LoaderTest do
   test "properties are loaded properly" do
     assert Application.get_env(:exjprop, Exjprop.Foo)[:foo] == nil
     assert Application.get_env(:exjprop, Exjprop.Foo)[:quux] == nil
-    TestModule.load_and_update_env(["foo.bar=three","foo.baz=four"])
+    TestModule.load_and_update_env(["foo.bar=three","foo.baz=four","min.key=tiny"])
     assert Application.get_env(:exjprop, Exjprop.Foo)[:foo] == "three"
     assert Application.get_env(:exjprop, Exjprop.Foo)[:quux] == "four"
+    assert Application.get_env(:exjprop, :min_key) == "tiny"
   end
 
   test "can load props without updating env" do
@@ -51,5 +54,6 @@ defmodule Exjprop.LoaderTest do
     System.put_env(env, "file:///#{@test_props_file}")
     TestModule.load_and_update_env({:system, env})
     assert Application.get_env(:exjprop, Exjprop.Foo)[:foo] == "baz"
+    assert Application.get_env(:exjprop, :two_key) == "slim"
   end
 end

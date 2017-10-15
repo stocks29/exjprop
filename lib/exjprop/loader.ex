@@ -78,29 +78,32 @@ defmodule Exjprop.Loader do
   Given configured props and loaded props, update the application env
   """
   def update_env(configured_props, props) do
-    Enum.each configured_props, fn {source, {app, module, key}, opts} ->
+    Enum.each configured_props, fn {source, target, opts} ->
       is_secret = secret(opts)
       value = get_property!(props, source)
       |> process_pipeline!(opts[:pipeline], is_secret, source)
-      handle_property_value(app, module, key, source, value, is_secret, opts)
+      handle_property_value(target, source, value, is_secret)
     end
   end
 
-  defp handle_property_value(_app, _module, _key, _source, nil, _is_secret, _opts) do
+  defp handle_property_value(_target, _source, nil, _is_secret) do
     # Not in properties file
     :ok
   end
-  defp handle_property_value(app, module, key, source, value, is_secret, opts) do
-    log_property_load(app, module, key, source, value, is_secret)
-    update_env_key(app, module, key, value, opts)
+  defp handle_property_value(target, source, value, is_secret) do
+    log_property_load(target, source, value, is_secret)
+    update_env_key(target, value)
   end
 
-  defp log_property_load(app, module, key, source, value, false) do
-    Logger.info ~s([Property] #{app} #{inspect module}.#{key} = ${"#{source}"} = "#{inspect value}")
+  defp log_property_load(target, source, value, false), do: log_property(target, source, value)
+  defp log_property_load(target, source, _value, _is_secret), do: log_property(target, source, @masked_value)
+
+  defp log_property(target, source, value) do
+    Logger.info ~s([Property] #{log_target(target)} = ${"#{source}"} = #{inspect value})
   end
-  defp log_property_load(app, module, key, source, _value, _is_secret) do
-    Logger.info ~s([Property] #{app} #{inspect module}.#{key} = ${"#{source}"} = "#{@masked_value}")
-  end
+
+  defp log_target({app, module, key}), do: "#{app} #{inspect module}.#{key}"
+  defp log_target({app, key}), do: "#{app} #{key}"
 
   @doc """
   Get a property
@@ -166,12 +169,15 @@ defmodule Exjprop.Loader do
     Exjprop.Properties.Stream.new(stream)
   end
 
-  defp update_env_key(_app, _key, _prop_key, nil, _opts) do
+  defp update_env_key(_target, nil) do
   end
-  defp update_env_key(app, key, prop_key, value, _opts) do
+  defp update_env_key({app, key, prop_key}, value) do
     keywords = Application.get_env(app, key, [])
     |> Keyword.put(prop_key, value)
     Application.put_env(app, key, keywords, persistent: true)
+  end
+  defp update_env_key({app, key}, value) do
+    Application.put_env(app, key, value, persistent: true)
   end
 
   defp secret(opts), do: nil_is_true(opts[:secret])
