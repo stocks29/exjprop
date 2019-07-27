@@ -12,7 +12,7 @@ API documentation is available at http://hexdocs.pm/exjprop
 ### Add as dependency
 
 ```elixir
-{:exjprop, "~> 1.0"}
+{:exjprop, "~> 1.2"}
 ```
 
 ### Load application properties at runtime
