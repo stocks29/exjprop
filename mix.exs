@@ -3,7 +3,7 @@ defmodule Exjprop.Mixfile do
 
   def project do
     [app: :exjprop,
-     version: "1.1.1",
+     version: "1.2.0",
      elixir: "~> 1.8",
      name: "exjprop",
      source_url: "https://github.com/stocks29/exjprop",
@@ -34,6 +34,7 @@ defmodule Exjprop.Mixfile do
       {:ex_aws, "~> 2.1", optional: true},
       {:sweet_xml, "~> 0.6.6", optional: true},
       {:httpoison, "~> 1.5.1", optional: true},
+      {:jason, "~> 1.1.2", optional: true},
       {:earmark, "~> 1.3.3", only: :dev},
       {:ex_doc, "~> 0.21.1", only: :dev},
     ]

@@ -56,9 +56,17 @@ The uri should either `file:///path/to/file.properties` or
 
 To enable support for retrieving property files from S3, a few additional dependencies are required.
 
-```
-    {:ex_aws, "~> 1.0"},
-    {:sweet_xml, "~> 0.6"},
+```elixir
+  {:ex_aws, "~> 2.1"},
+  {:sweet_xml, "~> 0.6"},
 ```
 
 ExAws also needs an HTTP client - it defaults to Hackney, but can be modified (see https://hexdocs.pm/ex_aws/ExAws.Request.HttpClient.html)
+
+### JSON
+
+Enable validators for json to keyword lists or maps
+
+```elixir
+  {:jason, "~> 1.1.2"},
+```
