@@ -6,6 +6,15 @@ defmodule Exjprop.Validators do
   def required({:ok, nil}), do: {:error, {nil, "cannot be nil"}}
   def required({:ok, _value} = tuple), do: tuple
 
+  def boolean({:error, _error} = tuple), do: tuple
+  def boolean({:ok, ""}), do: {:ok, false}
+  def boolean({:ok, nil}), do: {:ok, false}
+  def boolean({:ok, true}), do: {:ok, true}
+  def boolean({:ok, "true"}), do: {:ok, true}
+  def boolean({:ok, false}), do: {:ok, false}
+  def boolean({:ok, "false"}), do: {:ok, false}
+  def boolean({:ok, value}), do: {:error, {value, "unexpected boolean value"}}
+
   @doc """
   If the property is non-nil, parse it to an integer
   """

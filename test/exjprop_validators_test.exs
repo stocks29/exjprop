@@ -3,6 +3,34 @@ defmodule Exjprop.ValidatorsTest do
 
   alias Exjprop.Validators, as: V
 
+  test "boolean/1 does not modify errors" do
+    assert V.boolean({:error, :foo}) == {:error, :foo}
+  end
+
+  test "boolean/1 handles true as true" do
+    assert V.boolean({:ok, true}) == {:ok, true}
+  end
+
+  test "boolean/1 handles \"true\" as true" do
+    assert V.boolean({:ok, "true"}) == {:ok, true}
+  end
+
+  test "boolean/1 handles \"false\" as false" do
+    assert V.boolean({:ok, "false"}) == {:ok, false}
+  end
+
+  test "boolean/1 handles false as false" do
+    assert V.boolean({:ok, false}) == {:ok, false}
+  end
+
+  test "boolean/1 handles \"\" as false" do
+    assert V.boolean({:ok, ""}) == {:ok, false}
+  end
+
+  test "boolean/1 handles nil as false" do
+    assert V.boolean({:ok, nil}) == {:ok, false}
+  end
+
   test "keyword/1 does not modify errors" do
     assert V.keyword({:error, :foo}) == {:error, :foo}
   end

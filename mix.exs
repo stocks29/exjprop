@@ -3,7 +3,7 @@ defmodule Exjprop.Mixfile do
 
   def project do
     [app: :exjprop,
-     version: "1.2.0",
+     version: "1.3.0",
      elixir: "~> 1.8",
      name: "exjprop",
      source_url: "https://github.com/stocks29/exjprop",
